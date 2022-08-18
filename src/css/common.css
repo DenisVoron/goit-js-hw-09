@@ -20,3 +20,11 @@ img {
 .timer {
   display: flex;
 }
+
+.field {
+  display: block;
+}
+
+.value {
+  display: block;
+}
