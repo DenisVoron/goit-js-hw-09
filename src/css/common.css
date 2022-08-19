@@ -19,12 +19,15 @@ img {
 
 .timer {
   display: flex;
+  margin-top: 20px
 }
 
-.field {
-  display: block;
+.field:not(:last-child) {
+  margin-right: 15px;
 }
 
 .value {
-  display: block;
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
 }
