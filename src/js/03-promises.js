@@ -3,8 +3,6 @@ import Notiflix from 'notiflix';
 
 const refs = {
   form: document.querySelector('.form'),
-  inputDelay: document.querySelector('input[name="delay"]'),
-  btn: document.querySelector('button'),
 };
 
 refs.form.addEventListener('submit', onSubmitForm);
@@ -31,40 +29,32 @@ function createPromise(position, delay) {
 
 function onSubmitForm(e) {
   e.preventDefault();
-  //const clickForm = e.currentTarget;
-  //console.log(clickForm);
   const formData = new FormData(e.currentTarget);
   console.log(formData);
 
   formData.forEach((value, name) => {
-    //console.log('onFormSabmit -> value', value);
-    //console.log('onFormSabmit -> name', name);
+
     delay = formData.get("delay");
     step = formData.get("step");
     amount = formData.get("amount");
 
-    Number(delay);
+    const delayEl = Number(delay);
+    const stepEl = Number(step);
+    const amountEl = Number(amount);
 
-    console.log(delay);
-    console.log(step);
-    console.log(amount);
+    if (delayEl <= 0 || stepEl <= 0 || amountEl <= 0) {
+      alert('A positive value must be entered');
+    }
+
 
     for (let i = 1; i <= amount; i++) {
       createPromise(i, delay)
-        .then((position, delayNum) => {
+        .then((position, delay) => {
           Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
-          //console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-
         })
-        .catch((position, delayNum) => {
+        .catch((position, delay) => {
           Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-          //console.log(`❌ Rejected promise ${position} in ${delay}ms`);
         });
     }
   });
-  /*const {
-    elements: { delay, step, amount },
-  } = formData;*/
-
-
 }
