@@ -3,18 +3,13 @@ const refs = {
     stopBtn: document.querySelector('button[data-stop]'),
 }
 
-
 const kaleidoscope = {
     intervalId: null,
     isActive: false,
 
-
     start() {
-
-        if (this.isActive) {
-            return;
-        }
-        this.isActive = true;
+        refs.startBtn.disabled = true;
+        this.isActive = false;
 
         //console.log('click on start');
 
@@ -28,6 +23,7 @@ const kaleidoscope = {
 
     stop() {
         clearInterval(this.intervalId);
+        refs.startBtn.disabled = false;
     },
 };
 

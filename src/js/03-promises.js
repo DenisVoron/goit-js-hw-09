@@ -7,20 +7,17 @@ const refs = {
 
 refs.form.addEventListener('submit', onSubmitForm);
 
-let delay = 0;
-let step = 0;
-let amount = 0;
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
+    setInterval(() => {
       const shouldResolve = Math.random() > 0.3;
       if (shouldResolve) {
-        resolve(position, delay);
+        resolve({ position, delay });
         console.log(position);
         console.log(delay);
       } else {
-        reject(position, delay);
+        reject({ position, delay });
       }
     }, delay);
 
@@ -29,32 +26,27 @@ function createPromise(position, delay) {
 
 function onSubmitForm(e) {
   e.preventDefault();
-  const formData = new FormData(e.currentTarget);
-  console.log(formData);
 
-  formData.forEach((value, name) => {
+  let { elements: { delay, step, amount } } = e.currentTarget;
 
-    delay = formData.get("delay");
-    step = formData.get("step");
-    amount = formData.get("amount");
+  let delayEl = Number(delay.value);
+  const stepEl = Number(step.value);
+  const amountEl = Number(amount.value);
 
-    const delayEl = Number(delay);
-    const stepEl = Number(step);
-    const amountEl = Number(amount);
-
-    if (delayEl <= 0 || stepEl <= 0 || amountEl <= 0) {
-      alert('A positive value must be entered');
-    }
+  console.log(delayEl);
+  console.log(stepEl);
+  console.log(amountEl);
 
 
-    for (let i = 1; i <= amount; i++) {
-      createPromise(i, delay)
-        .then((position, delay) => {
-          Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
-        })
-        .catch((position, delay) => {
-          Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-        });
-    }
-  });
+  for (let i = 1; i <= amountEl; i++) {
+    createPromise(i, delayEl)
+      .then(({ position, delay }) => {
+        Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch((position, delay) => {
+        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+      });
+    delayEl += stepEl;
+  }
+
 }
