@@ -43,7 +43,7 @@ function onSubmitForm(e) {
       .then(({ position, delay }) => {
         Notiflix.Notify.info(`✅ Fulfilled promise ${position} in ${delay}ms`);
       })
-      .catch((position, delay) => {
+      .catch(({ position, delay }) => {
         Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
       });
     delayEl += stepEl;
